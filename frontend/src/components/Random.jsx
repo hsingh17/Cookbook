@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import MealCard from './MealCard.jsx'
-import '../styles/Random.css'
+import CustomSpinner from './CustomSpinner.jsx'
 import Container from 'react-bootstrap/Container'
-import Row from 'react-bootstrap/Row'
-import Spinner from 'react-bootstrap/Spinner'
 import Button from 'react-bootstrap/Button'
 
 function Random() {
@@ -30,19 +28,9 @@ function Random() {
     const card_visible = (ready) ? 'flex' : 'none'
     const spinner_visible = !(ready) ? 'block' : 'none'
     return (
-        <Container > 
-            <Container id='spinner-wrapper' className={`d-flex flex-column justify-content-center align-items-center d-${spinner_visible}`}>
-                <Row>
-                    <Spinner animation='border' role="status">
-                        <span className='visually-hidden'>Loading...</span>
-                    </Spinner>
-                </Row>
+        <Container> 
+            <CustomSpinner visible={spinner_visible} msg={'Cooking up something tasty 😋'}/>
 
-                <Row className='mt-2'>
-                    Cooking up something tasty 😋 ...
-                </Row>
-            </Container>
-            
             <Container className={`d-${card_visible} flex-column align-items-center`}>
                 <MealCard key={id} data={data}/>
                 <Button variant='dark' onClick={ async _ => {

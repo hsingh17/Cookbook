@@ -1,12 +1,19 @@
 import React from 'react'
 import Container from 'react-bootstrap/Container'
 
-function get_list(filter, data) {
-    const { meals } = data
-    if (meals === null) { return }
+function get_list(cat, search_term, data) {
+    let { meals } = data
+    if (meals === null) { return }  // Fetch is not complete if this is true
+    
+    // Filter results by search term instead of category
+    if (search_term !== cat.toLowerCase()) {
+        meals = meals.filter(meal => { return meal.strMeal.toLowerCase().indexOf(search_term) !== -1 })
+    }
+    if (!meals.length) { return }    // Nothing matches against the search term
+
     return (
-        <Container key={filter} className="mb-4">
-            <h1 className='display-4'>{filter}</h1>
+        <Container key={cat} className="mb-4">
+            <h1 className='display-4'>{cat}</h1>
             <hr />
             {
                 meals.map(meal => {
@@ -21,11 +28,12 @@ function get_list(filter, data) {
 
 function MealList(props) {
     const data = (props.data === undefined) ? {} : props.data
+    const search_term = (props.search_term).toLowerCase()
     return (
         <Container>
             {
-                Array.from(Object.keys(data)).map(filter => {
-                    return (get_list(filter, data[filter]))
+                Array.from(Object.keys(data)).map(cat => {
+                    return (get_list(cat, search_term, data[cat]))
                 })
             }
         </Container>            

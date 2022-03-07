@@ -7,10 +7,10 @@ import {
         BrowserRouter as Router, 
         Routes
 } from 'react-router-dom'
-import '../styles/Nav.css'
 import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
+import '../styles/Nav.css'
 
  function MyNav() {
     return (
