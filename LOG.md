@@ -1,14 +1,19 @@
 1. Allow users to filter meals by ABC, category, and area (make a MealsList.jsx) -> DONE
 2. Search bar in the filter page -> DONE
-3. Convert class components to function components -> DONE
+3. Convert class components to function components --> DONE
 4. Allow users to search meals --> DONE
 5. Add spinner to Search.jsx until fetch completes --> DONE
-5. Possibly add pagination (?)
 6. Add clickable thumbnails to filter page (will display a meal card similar to Random route when clicked)
-7. Fix up mealcard ingredients and measures display null values. Maybe figure out a fix for the instructions part counting numbers as an instruction.
-8. Add res.status(...) in backend and try-catch for error checking on frontend
-9. Add Postgres database for users
-10. Add authorization with JWT
-11. Add favoriting of meals if user is logged in
-12. Maybe allow filtering by most favorited by users
-13. Make frontend look nicer.
+    - Will take inspiration from https://www.allrecipes.com/recipes/149/breakfast-and-brunch/french-toast/ for the mini card design --> DONE (?)
+    - Async image loading --> KINDA DONE
+    - Add onClick that expands to /search/{meal_name} to display MealPage
+
+7. Fix up MealPage ingredients and measures display null values. Maybe figure out a fix for the instructions part counting numbers as an instruction.
+8. Possibly add YouTube video link to the MealPage if the meal has one
+9. Add res.status(...) in backend and try-catch for error checking on frontend
+10. Add 404 page to unhandled routes
+11. Add Postgres database for users
+12. Add authorization with JWT
+13. Add favoriting of meals if user is logged in
+14. Maybe allow filtering by most favorited by users
+15. Make frontend look nicer.

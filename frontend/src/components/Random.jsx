@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
-import MealCard from './MealCard.jsx'
+import MealPage from './MealPage.jsx'
 import CustomSpinner from './CustomSpinner.jsx'
 import Container from 'react-bootstrap/Container'
 import Button from 'react-bootstrap/Button'
@@ -32,7 +32,7 @@ function Random() {
             <CustomSpinner visible={spinner_visible} msg={'Cooking up something tasty 😋'}/>
 
             <Container className={`d-${card_visible} flex-column align-items-center`}>
-                <MealCard key={id} data={data}/>
+                <MealPage key={id} data={data}/>
                 <Button variant='dark' onClick={ async _ => {
                     setData({})
                     setId('')

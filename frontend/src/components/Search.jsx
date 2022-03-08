@@ -44,21 +44,24 @@ function Search() {
         setSearchTerm(input.current.value)
     }
 
+    const list_visible = (ready) ? 'block' : 'none'
     const spinner_visible = !(ready) ? 'block' : 'none'
     return (
         <Container>
             <CustomSpinner visible={spinner_visible} msg={'Sit tight. We\'re getting you those meals 🔎'}/>
 
-            <InputGroup size='md' className='pt-4'>
-                <FormControl placeholder='Search meals...' onKeyUp={handle_input} ref={input} />
-                <DropdownButton title='Filter by:'>
-                    <DropdownItem onClick={() => {new_filter(0)}}>Alphabetical</DropdownItem>
-                    <DropdownItem onClick={() => {new_filter(1)}}>Area</DropdownItem>
-                    <DropdownItem onClick={() => {new_filter(2)}}>Category</DropdownItem>
-                </DropdownButton>
-            </InputGroup>
+            <Container className={`d-${list_visible}`}>
+                <InputGroup size='md' className='pt-4'>
+                    <FormControl placeholder='Search meals...' onKeyUp={handle_input} ref={input} />
+                    <DropdownButton title='Filter by:'>
+                        <DropdownItem onClick={() => {new_filter(0)}}>Alphabetical</DropdownItem>
+                        <DropdownItem onClick={() => {new_filter(1)}}>Category</DropdownItem>
+                        <DropdownItem onClick={() => {new_filter(2)}}>Area</DropdownItem>
+                    </DropdownButton>
+                </InputGroup>
 
-            <MealList key={filter + data.length} data={data[filter]} search_term={search_term} />
+                <MealList key={filter + data.length} data={data[filter]} search_term={search_term} />
+            </Container>
         </Container>
     )
 }
