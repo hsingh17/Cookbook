@@ -5,10 +5,9 @@ import Spinner from 'react-bootstrap/Spinner'
 import '../styles/CustomSpinner.css'
 
 function CustomSpinner(props) {
-    const visible = props.visible
     const msg = props.msg
     return (
-        <Container id='spinner-wrapper' className={`d-flex flex-column justify-content-center align-items-center d-${visible}`}>
+        <Container id='spinner-wrapper' className='d-flex flex-column justify-content-center align-items-center'>
             <Row>
                 <Spinner animation='border' role="status">
                     <span className='visually-hidden'>Loading...</span>

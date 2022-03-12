@@ -2,6 +2,8 @@ import React from 'react'
 import Random from './Random.jsx'
 import Search from './Search.jsx'
 import Favorites from './Favorites.jsx'
+import Meals from './Meals.jsx'
+import Error from './Error.jsx'
 import { 
         Route, 
         BrowserRouter as Router, 
@@ -12,7 +14,7 @@ import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import '../styles/Nav.css'
 
- function MyNav() {
+function MyNav() {
     return (
         <Router>
             <Navbar sticky='top' bg='light' variant='light' expand='lg'>
@@ -41,6 +43,8 @@ import '../styles/Nav.css'
                 <Route path ='/search' element={<Search/>}/>
                 <Route path ='/random' element={<Random/>}/>
                 <Route path ='/favorites' element={<Favorites/>}/>
+                <Route path ='/meals/:id' element={<Meals/>}/>
+                <Route path ='*' element={<Error/>}/>
             </Routes>
         </Router>
     )

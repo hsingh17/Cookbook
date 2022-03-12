@@ -6,12 +6,13 @@
 6. Add clickable thumbnails to filter page (will display a meal card similar to Random route when clicked)
     - Will take inspiration from https://www.allrecipes.com/recipes/149/breakfast-and-brunch/french-toast/ for the mini card design --> DONE (?)
     - Async image loading --> KINDA DONE
-    - Add onClick that expands to /search/{meal_name} to display MealPage
+    - Add onClick that expands to /search/{meal_name} to display MealPage --> DONE
 
-7. Fix up MealPage ingredients and measures display null values. Maybe figure out a fix for the instructions part counting numbers as an instruction.
+7. Fix up Recipe ingredients and measures display null values. Maybe figure out a fix for the instructions part counting numbers as an instruction.
 8. Possibly add YouTube video link to the MealPage if the meal has one
-9. Add res.status(...) in backend and try-catch for error checking on frontend
+9. Add res.status(...) in backend and try-catch for error checking on frontend (focusing on /meals/:id route)
 10. Add 404 page to unhandled routes
+11. Add ability to traverse history especially on search and random routes (https://v5.reactrouter.com/web/api/Hooks/usehistory)
 11. Add Postgres database for users
 12. Add authorization with JWT
 13. Add favoriting of meals if user is logged in
