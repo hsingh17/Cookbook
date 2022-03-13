@@ -7,7 +7,7 @@ import Image from 'react-bootstrap/Image'
 function parse_instructions(data) {
     // Split instructions by newline and filter out any blank lines
     const str = data.strInstructions
-    let instructions = str.split('\r\n')
+    let instructions = str.split('.')
     instructions = instructions.filter(instr => instr !== '')
     return instructions        
 }
@@ -18,7 +18,10 @@ function parse_ingredients_measures(data, type) {
 
     // Get all the properties that are non-empty and relate to the ingredient
     const props = Array.from(Object.keys(data)).filter(prop => {
-        return prop.includes(filter_type) && data[prop] !== '' && data[prop] !== ' '
+        return prop.includes(filter_type)   && 
+                        data[prop] !== ''   && 
+                        data[prop] !== ' '  && 
+                        data[prop] !== null
     })
 
     // Get the ingredients from the previous properties
@@ -27,7 +30,7 @@ function parse_ingredients_measures(data, type) {
     return values
 }
 
-function MealCard(props) {
+function Recipe(props) {
     const { meals } = props.data || {} // https://stackoverflow.com/questions/25187903/what-do-curly-braces-around-javascript-variable-name-mean
     const valid = meals !== undefined
     const meal = (valid) ? meals[0] : {}
@@ -90,4 +93,4 @@ function MealCard(props) {
     )
 }
 
-export default MealCard
+export default Recipe
