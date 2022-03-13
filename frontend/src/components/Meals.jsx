@@ -10,10 +10,14 @@ function Meals() {
 
     useEffect(_ => {
         async function wrapper() {
-            const response = await fetch(`http://localhost:5000/api/search?id=${params.id}&type=i`)
-            const data = await response.json()
-            setData(data)
-            setReady(true)
+            try {
+                const response = await fetch(`http://localhost:5000/api/search?id=${params.id}&type=i`)
+                const data = await response.json()
+                setData(data)
+                setReady(true)
+            } catch (e) {
+                console.error(e)
+            }
         }
 
         wrapper()
