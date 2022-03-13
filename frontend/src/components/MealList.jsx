@@ -1,7 +1,7 @@
 import React from 'react'
-import MealThumbnail from './MealThumbnail'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
+import MealThumbnail from './MealThumbnail'
 
 function get_list(cat, search_term, data) {
     let { meals } = data
