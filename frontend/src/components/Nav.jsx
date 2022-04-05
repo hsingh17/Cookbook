@@ -4,6 +4,7 @@ import Search from './Search.jsx'
 import Favorites from './Favorites.jsx'
 import Meals from './Meals.jsx'
 import Error from './Error.jsx'
+import SignUp from './Signup.jsx'
 import { 
         Route, 
         BrowserRouter as Router, 
@@ -12,16 +13,18 @@ import {
 import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
+import Button from 'react-bootstrap/Button'
 import '../styles/Nav.css'
+import Login from './Login.jsx'
 
 function MyNav() {
     return (
         <Router>
-            <Navbar sticky='top' bg='light' variant='light' expand='lg'>
+            <Navbar id='my-nav' sticky='top' expand='lg'>
                 <Container>
-                    <Navbar.Brand href="">Cookbook</Navbar.Brand>
-                        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
+                    <Navbar.Toggle aria-controls='navbar'/>
+                    <Navbar.Collapse id='navbar'>
+                        <Navbar.Brand href=''>Cookbook</Navbar.Brand>
                         <Nav>
                             <Nav.Link href='/search'>
                                 <span> Search </span>
@@ -36,6 +39,11 @@ function MyNav() {
                             </Nav.Link>
                         </Nav>
                     </Navbar.Collapse>
+                    
+                    <Container className='ms-auto me-0 w-auto'>
+                        <Login />
+                        <SignUp />
+                    </Container>
                 </Container>
             </Navbar>
 

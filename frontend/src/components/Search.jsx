@@ -51,9 +51,7 @@ function Search() {
         }
     }
     
-    const handle_input = _ => {
-        setSearchTerm(input.current.value)
-    }
+    const handle_input = _ => { setSearchTerm(input.current.value) }
 
     return (
         <Container>

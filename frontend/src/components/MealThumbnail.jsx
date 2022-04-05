@@ -26,6 +26,7 @@ function MealThumbnail(props) {
         observer.current.observe(card_img.current) 
     }, [])
 
+   
     return (
         <Col>
             <Link className='link' to={`/meals/${data.idMeal}`}>

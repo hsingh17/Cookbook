@@ -25,7 +25,7 @@ function Meals() {
 
     return (
         <Container>
-            {ready ? <Recipe key={params.id} data={data}/> : <></>}
+            {ready ? <Recipe key={params.id} data={data} /> : <></>}
         </Container>
     )
 }

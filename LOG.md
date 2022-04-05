@@ -12,13 +12,14 @@
 8. Possibly add YouTube video link to the Recipe if the meal has one --> SKIPPED
 9. Add res.status(...) in backend and try-catch for error checking on frontend (focusing on /meals/:id route)  --> DONE
 10. Add 404 page to unhandled routes --> DONE
-11. Add ability to traverse history especially on search and random routes
-11. Add Postgres database for users
-12. Add authorization with JWT
-13. Add favoriting of meals if user is logged in
-14. Maybe allow filtering by most favorited by users
-15. Figure out something if an error happens in try-catch
+11. Add ability to traverse history especially on search and random routes --> SKIPPED (requires Redux)
+12. Add user sign in page
+13. Add Postgres database for users
+14. Add authorization with JWT
+15. Add favoriting of meals if user is logged in
+16. Maybe allow filtering by most favorited by users
+17. Figure out something if an error happens in try-catch
 16. Render message if /meals/:id doesn't exist 
-17. Add / (home) page
-18. Make frontend look nicer.
-19. Optimizations
+18. Add / (home) page
+19. Make frontend look nicer.
+20. Optimizations 
