@@ -10,7 +10,11 @@ import CustomSpinner from './CustomSpinner.jsx'
 let CACHE = {}
 async function fetch_meals(f) {
     try {
-        const response = await fetch(`http://localhost:5000/api/filter?f=${f}`)
+        const URL = (process.env.NODE_ENV === 'development') ? 
+                    process.env.REACT_APP_DEV_URL : 
+                    process.env.REACT_APP_PROD_URL
+                    
+        const response = await fetch(`${URL}/api/filter?f=${f}`)
         const data = await response.json()
         if (!(f in CACHE)) { CACHE[f] = data }
         return data

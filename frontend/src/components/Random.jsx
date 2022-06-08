@@ -9,11 +9,19 @@ function Random() {
     const [id, setId] = useState('')
     const [ready, setReady] = useState(false)
     const fetch_meal = async _ => {
-        const response = await fetch('http://localhost:5000/api/random')
-        const data = await response.json()
-        setData(data)
-        setId(data.meals[0].idMeal)
-        setReady(true)
+        try {
+            const URL = (process.env.NODE_ENV === 'development') ? 
+                        process.env.REACT_APP_DEV_URL : 
+                        process.env.REACT_APP_PROD_URL            
+                        
+            const response = await fetch(`${URL}/api/random`)
+            const data = await response.json()
+            setData(data)
+            setId(data.meals[0].idMeal)
+            setReady(true)
+        } catch (e) {
+            console.error(e)
+        }
     }
 
     useEffect(_ => {

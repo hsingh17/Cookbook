@@ -3,11 +3,12 @@ const { Pool } = require('pg')
 
 // Set up the pool (https://node-postgres.com/features/pooling)
 const pool = new Pool({
-    user        :   'postgres',
-    host        :   'localhost',
-    database    :   'COOKBOOK_DB',
-    password    :   'nice_password',
-    port        :   '5432'   
+    user        :   process.env.DB_USER,
+    host        :   (process.env.NODE_ENV === 'developement') ? 
+                    process.env.DB_HOST_DEV : process.env.DB_HOST_PROD,
+    database    :   process.env.DB_NAME,
+    password    :   process.env.DB_PASSWORD,
+    port        :   process.env.DB_PORT 
 })
 
 const create_user = async (req, res, _) => {

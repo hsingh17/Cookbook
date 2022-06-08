@@ -50,13 +50,16 @@ function MyForm(props) {
         
         const form_obj = Object.fromEntries(form_data.entries())
         try {
-
             // Needed for GET request since we want it to be a query param 
             const search_params = sign_up ? '' : ('?' + new URLSearchParams(form_obj))
-            const URL = 'http://localhost:5000/db/users' + search_params
+            const URL = (
+                            (process.env.NODE_ENV === 'development') ? 
+                            process.env.REACT_APP_DEV_URL : 
+                            process.env.REACT_APP_PROD_URL
+                        ) + '/db/users' + search_params
 
             // https://developer.mozilla.org/en-US/docs/Web/API/fetch
-            const res = await fetch(URL, {
+            const response = await fetch(URL, {
                 method  :   sign_up ? 'POST' : 'GET',
                 body    :   sign_up ? JSON.stringify(form_obj) : null,
                 headers  : {
@@ -64,7 +67,7 @@ function MyForm(props) {
                 }
             })
             
-            let status = res.ok
+            const status = response.ok
             if (!status) {
                 setShowAlert(true)
                 setMsg(sign_up ? 'Please try a different username!' : 'Username or password was incorrect')
