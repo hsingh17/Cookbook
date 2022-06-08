@@ -14,7 +14,7 @@ const create_user = async (req, res, _) => {
     const today = new Date()
     const username = req.body.user
     const password = req.body.pass
-    
+
     try {
         const user = await pool.query(  // Check to see if username is duplicate
             'SELECT name FROM users where name = $1', 
@@ -44,7 +44,7 @@ const create_user = async (req, res, _) => {
 const get_user = async (req, res, _) => {
     const username = req.query.user
     const password = req.query.pass
-    
+
     try {
         const user = await pool.query( 
             'SELECT password FROM users WHERE name = $1',
@@ -65,7 +65,7 @@ const get_user = async (req, res, _) => {
     } catch (err) {
         console.log(err)
     }
-
+    
     res.status(200).send()
 }
 

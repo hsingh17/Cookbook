@@ -13,8 +13,8 @@
 9. Add res.status(...) in backend and try-catch for error checking on frontend (focusing on /meals/:id route)  --> DONE
 10. Add 404 page to unhandled routes --> DONE
 11. Add ability to traverse history especially on search and random routes --> SKIPPED (requires Redux)
-12. Add user sign in page
-13. Add Postgres database for users
+12. Add user sign in page --> DONE
+13. Add Postgres database for users --> DONE
 14. Add authorization with JWT
 15. Add favoriting of meals if user is logged in
 16. Maybe allow filtering by most favorited by users
@@ -23,3 +23,7 @@
 18. Add / (home) page
 19. Make frontend look nicer.
 20. Optimizations 
+
+
+------------------
+

@@ -1,11 +1,32 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
+import Alert from 'react-bootstrap/Alert'
+
+function ErrorAlert(props) {
+    const show = props.show
+    const set_alert_off = props.set_alert_off
+    const msg = props.msg
+
+    useEffect(_ => {
+        const id = setTimeout(_ => {
+            set_alert_off(id)
+        }, 5000)
+    })
+
+    return (
+        <>
+            {show && <Alert variant='danger'>{msg}</Alert>}
+        </>
+    )
+}
 
 function MyForm(props) {
     const [show, setShow] = useState(false)
+    const [showAlert, setShowAlert] = useState(false)
+    const [msg, setMsg] = useState('')
     const [validated, setValidated] = useState(false)
     const nav_btn_txt = props.nav_btn_txt
     const modal_btn_txt = props.modal_btn_txt
@@ -14,14 +35,51 @@ function MyForm(props) {
     
     // Native HTML5 form validation: 
     // https://react-bootstrap.netlify.app/forms/validation/#native-html5-form-validation
-    const handle_submit = e => {
+    const handle_submit = async e => {
+        // Need a custom form handler since we want to capture the response from the server
         const form = e.currentTarget
-        if (!form.checkValidity()) {
-            e.preventDefault()
+        const form_data = new FormData(form)    // https://developer.mozilla.org/en-US/docs/Web/API/FormData/FormData
+        e.preventDefault()  // We want to submit via fetch not the normal form submit
+
+        // Not a valid form
+        if (!form.checkValidity()) {    // Not a valid form
             e.stopPropagation()
+            setValidated(true)  // By setting to true, we apply feedback styles
+            return
         } 
+        
+        const form_obj = Object.fromEntries(form_data.entries())
+        try {
+
+            // Needed for GET request since we want it to be a query param 
+            const search_params = sign_up ? '' : ('?' + new URLSearchParams(form_obj))
+            const URL = 'http://localhost:5000/db/users' + search_params
+
+            // https://developer.mozilla.org/en-US/docs/Web/API/fetch
+            const res = await fetch(URL, {
+                method  :   sign_up ? 'POST' : 'GET',
+                body    :   sign_up ? JSON.stringify(form_obj) : null,
+                headers  : {
+                    'Content-Type' : 'application/json' // Set approriate Content-Type
+                }
+            })
+            
+            let status = res.ok
+            if (!status) {
+                setShowAlert(true)
+                setMsg(sign_up ? 'Please try a different username!' : 'Username or password was incorrect')
+            }
+        } catch (err) {
+            console.error(err)
+        }
+
     
         setValidated(true)  // By setting to true, we apply feedback styles
+    }
+
+    const set_alert_off = id => {
+        clearTimeout(id)
+        setShowAlert(false)
     }
 
     // Rendering without wrapper container: 
@@ -40,12 +98,18 @@ function MyForm(props) {
                     <Modal.Title>{title}</Modal.Title>
                 </Modal.Header>
 
-                <Form action='http://localhost:5000/db/users' method={sign_up ? 'POST' : 'GET'} noValidate validated={validated} onSubmit={handle_submit}>
+                <Form 
+                    noValidate
+                    validated={validated} 
+                    onSubmit={handle_submit}>
                     <Modal.Body>
                         <Form.Group>
                             <Form.Label>Username</Form.Label>
                             <InputGroup hasValidation>
-                                <Form.Control type='text' placeholder='Please enter your username' name='user' required />
+                                <Form.Control 
+                                    type='text' 
+                                    placeholder='Please enter your username' 
+                                    name='user' required />
 
                                 <Form.Control.Feedback type='invalid'>
                                     Please type a username!
@@ -66,7 +130,8 @@ function MyForm(props) {
                         <Button type='submit'>{modal_btn_txt}</Button>
                     </Modal.Body>
 
-                    <Modal.Footer>
+                    <Modal.Footer className='justify-content-center'>
+                        <ErrorAlert show={showAlert} set_alert_off={set_alert_off} msg={msg} />
                     </Modal.Footer>
                 </Form>
             </Modal>
