@@ -27,8 +27,11 @@
 
 ------------------
 Next:
-2. Add alert for succesful sign up and tell user to login via login button
-3. Figure out JWT and add it to cookies or localstorage
+3. Figure out session based auth with cookies ()
+
+https://stackoverflow.com/questions/19591689/expressjs-set-get-use-cookies
+https://stackoverflow.com/questions/17769011/how-does-cookie-based-authentication-work
+
 4. Redirect to favorites on successful login
 5. Users who are not logged will get a message saying to login or signup
 6. Add favorites table in database

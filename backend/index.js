@@ -11,7 +11,11 @@ const filter_route = require('./routes/filter')
 const db_route = require('./routes/db')
 
 
-app.use(cors())
+app.use(cors({
+    origin: process.env.URL_DEV,
+    credentials: true,  // https://stackoverflow.com/questions/24687313/what-exactly-does-the-access-control-allow-credentials-header-do
+}))
+
 app.use(express.urlencoded({
     extended : true
 })) // https://flaviocopes.com/express-forms/

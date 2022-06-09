@@ -8,6 +8,7 @@ import Alert from 'react-bootstrap/Alert'
 function ErrorAlert(props) {
     const show = props.show
     const set_alert_off = props.set_alert_off
+    const variant = props.variant
     const msg = props.msg
 
     useEffect(_ => {
@@ -18,7 +19,7 @@ function ErrorAlert(props) {
 
     return (
         <>
-            {show && <Alert variant='danger'>{msg}</Alert>}
+            {show && <Alert variant={props.variant}>{msg}</Alert>}
         </>
     )
 }
@@ -27,6 +28,7 @@ function MyForm(props) {
     const [show, setShow] = useState(false)
     const [showAlert, setShowAlert] = useState(false)
     const [msg, setMsg] = useState('')
+    const [variant, setVariant] = useState('')
     const [validated, setValidated] = useState(false)
     const nav_btn_txt = props.nav_btn_txt
     const modal_btn_txt = props.modal_btn_txt
@@ -62,6 +64,7 @@ function MyForm(props) {
             const response = await fetch(URL, {
                 method  :   sign_up ? 'POST' : 'GET',
                 body    :   sign_up ? JSON.stringify(form_obj) : null,
+                credentials : 'include',    // Need 'include' to use cookies set from the response
                 headers  : {
                     'Content-Type' : 'application/json' // Set approriate Content-Type
                 }
@@ -71,6 +74,11 @@ function MyForm(props) {
             if (!status) {
                 setShowAlert(true)
                 setMsg(sign_up ? 'Please try a different username!' : 'Username or password was incorrect')
+                setVariant('danger')
+            } else if (status && sign_up) {
+                setShowAlert(true)
+                setMsg('User successfully created! You can now login via the login button.')
+                setVariant('success')
             }
         } catch (err) {
             console.error(err)
@@ -134,7 +142,7 @@ function MyForm(props) {
                     </Modal.Body>
 
                     <Modal.Footer className='justify-content-center'>
-                        <ErrorAlert show={showAlert} set_alert_off={set_alert_off} msg={msg} />
+                        <ErrorAlert show={showAlert} set_alert_off={set_alert_off} msg={msg} variant={variant}/>
                     </Modal.Footer>
                 </Form>
             </Modal>

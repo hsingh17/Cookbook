@@ -1,3 +1,4 @@
+const crypto = require('crypto')
 const bcrypt = require('bcryptjs')
 const { Pool } = require('pg')
 
@@ -37,6 +38,8 @@ const create_user = async (req, res, _) => {
         )
     } catch (err) {
         console.log(err)
+        res.status(500).send()
+        return
     }
 
     res.status(200).send()
@@ -63,11 +66,20 @@ const get_user = async (req, res, _) => {
             res.status(404).send()
             return
         }
+        
     } catch (err) {
         console.log(err)
+        res.status(500).send()
+        return
     }
     
-    res.status(200).send()
+    res
+        .status(200)
+        .cookie('sessionID', crypto.randomBytes(16).toString('base64'), {
+            sameSite: 'Strict',
+            maxAge: 300000  // 5 minutes
+        })
+        .send()
 }
 
 module.exports = {
