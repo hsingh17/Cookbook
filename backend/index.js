@@ -12,7 +12,7 @@ const db_route = require('./routes/db')
 
 
 app.use(cors({
-    origin: process.env.URL_DEV,
+    origin: process.env.URL_DEV,    // Need to specify exact origin when allowing credentials
     credentials: true,  // https://stackoverflow.com/questions/24687313/what-exactly-does-the-access-control-allow-credentials-header-do
 }))
 

@@ -3,6 +3,7 @@ import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
+import Button from 'react-bootstrap/Button'
 
 function parse_instructions(data) {
     // Split instructions by newline and filter out any blank lines
@@ -45,8 +46,29 @@ function Recipe(props) {
         measures        : (valid) ? parse_ingredients_measures(meal, 0) : []    
     }
 
+    const favorite_meal = async _ => {
+        const URL = (
+                            (process.env.NODE_ENV === 'development') ? 
+                            process.env.REACT_APP_DEV_URL : 
+                            process.env.REACT_APP_PROD_URL
+                        ) + '/db/favorites'
+        
+        const meal_id_obj = {meal_id : meal.idMeal}
+        await fetch(URL, {
+            method      :   'POST',
+            body        :   JSON.stringify(meal_id_obj),
+            credentials :   'include',
+            headers     :   {
+                'Content-Type' : 'application/json'
+            }
+        })
+    }
+
     return (
         <Container>
+            <Row>
+                <Button onClick={favorite_meal}>Favorite</Button>
+            </Row>
             <Row>
                 <h1>{meal_obj.name}</h1>
             </Row>

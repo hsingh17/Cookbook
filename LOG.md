@@ -27,13 +27,6 @@
 
 ------------------
 Next:
-3. Figure out session based auth with cookies ()
-
-https://stackoverflow.com/questions/19591689/expressjs-set-get-use-cookies
-https://stackoverflow.com/questions/17769011/how-does-cookie-based-authentication-work
-
-4. Redirect to favorites on successful login
-5. Users who are not logged will get a message saying to login or signup
-6. Add favorites table in database
-7. Allow users to favorite meals
 8. Render thumbnails for a user's favorite meals
+9. Handle duplicate favories
+10. Remove login and sign up buttons with user's name in topleft if they're logged in

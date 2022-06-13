@@ -14,14 +14,38 @@ POST (/db/users):
 router.post('/users', db_controller.create_user)
 
 /*
-GET (/db/users): 
+GET (/db/users?user=&pass=): 
     PURPOSE
             Confirm if a user is in the db
     QUERY PARAMS
-
+            user: user's name
+            pass: password of user
     PATH PARAMS
             NONE
 */
-router.get('/users', db_controller.get_user)
+router.get('/users', db_controller.login_user)
+
+/*
+POST (/db/favorites): 
+    PURPOSE
+            Add a favorite meal to a user
+    QUERY PARAMS
+           
+    PATH PARAMS
+            NONE
+*/
+router.post('/favorites', db_controller.add_favorite)
+
+
+/*
+GET (/db/favorites): 
+    PURPOSE
+            Get favorite meals for a user
+    QUERY PARAMS
+           None
+    PATH PARAMS
+            NONE
+*/
+router.get('/favorites', db_controller.get_favorite)
 
 module.exports = router

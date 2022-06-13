@@ -4,6 +4,7 @@ import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
 import Alert from 'react-bootstrap/Alert'
+import { useNavigate } from 'react-router-dom'
 
 function ErrorAlert(props) {
     const show = props.show
@@ -19,7 +20,7 @@ function ErrorAlert(props) {
 
     return (
         <>
-            {show && <Alert variant={props.variant}>{msg}</Alert>}
+            {show && <Alert variant={variant}>{msg}</Alert>}
         </>
     )
 }
@@ -30,6 +31,7 @@ function MyForm(props) {
     const [msg, setMsg] = useState('')
     const [variant, setVariant] = useState('')
     const [validated, setValidated] = useState(false)
+    const navigate = useNavigate()
     const nav_btn_txt = props.nav_btn_txt
     const modal_btn_txt = props.modal_btn_txt
     const title = props.title
@@ -62,23 +64,26 @@ function MyForm(props) {
 
             // https://developer.mozilla.org/en-US/docs/Web/API/fetch
             const response = await fetch(URL, {
-                method  :   sign_up ? 'POST' : 'GET',
-                body    :   sign_up ? JSON.stringify(form_obj) : null,
+                method      :   sign_up ? 'POST' : 'GET',
+                body        :   sign_up ? JSON.stringify(form_obj) : null,
                 credentials : 'include',    // Need 'include' to use cookies set from the response
-                headers  : {
+                headers     : {
                     'Content-Type' : 'application/json' // Set approriate Content-Type
                 }
             })
             
             const status = response.ok
-            if (!status) {
+            if (!status) {  // Unsuccessful signup/login
                 setShowAlert(true)
                 setMsg(sign_up ? 'Please try a different username!' : 'Username or password was incorrect')
                 setVariant('danger')
-            } else if (status && sign_up) {
+            } else if (status && sign_up) { // Successful sign up
                 setShowAlert(true)
                 setMsg('User successfully created! You can now login via the login button.')
                 setVariant('success')
+            } else if (status && !sign_up) { // Successful login
+                setShow(false)
+                navigate('/favorites')  // Redirect to favorites
             }
         } catch (err) {
             console.error(err)
