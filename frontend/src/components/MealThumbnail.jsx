@@ -7,7 +7,6 @@ import '../styles/MealThumbnail.css'
 function MealThumbnail(props) {
     const data = props.data
     const card_img = useRef(null)
-
     // Intersection Observer for lazy loading of card image
     // https://medium.com/the-non-traditional-developer/how-to-use-an-intersectionobserver-in-a-react-hook-9fb061ac6cb5
     // https://developer.mozilla.org/en-US/docs/Web/API/Intersection_Observer_API

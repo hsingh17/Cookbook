@@ -27,6 +27,9 @@
 
 ------------------
 Next:
-8. Render thumbnails for a user's favorite meals
-9. Handle duplicate favories
-10. Remove login and sign up buttons with user's name in topleft if they're logged in
+10. Allow user to delete from favorites
+11. Replace favorite button with star or heart
+12. Remove login and sign up buttons with user's name in topleft if they're logged in
+13. Remove user from session table when they exit browser
+14. Sort by most favorited meals (Maybe?)
+15. Comments on meal posts (Maybe?)

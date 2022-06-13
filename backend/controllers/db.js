@@ -131,10 +131,12 @@ const add_favorite = async (req, res, _) => {
 
 const get_favorite = async (req, res, _) => {
     const user_id = await user_from_session(req.headers.cookie)
+    // https://dba.stackexchange.com/questions/226456/how-can-i-get-a-unique-array-in-postgresql
     const response = await pool.query(
-        'SELECT meals FROM favorites WHERE user_id = $1',
+        'SELECT ARRAY(SELECT DISTINCT(meals) FROM (SELECT UNNEST(meals) AS meals FROM favorites WHERE user_id = $1) as meal_row) as meals;',
         [user_id]
     )
+    
     const meals = response.rows[0]
     res
         .json(meals)
