@@ -13,11 +13,10 @@ const pool = new Pool({
 })
 
 const create_user = async (req, res, _) => {
-    const today = new Date()
-    const username = req.body.user
-    const password = req.body.pass
-
     try {
+        const today = new Date()
+        const username = req.body.user
+        const password = req.body.pass
         const user = await pool.query(  // Check to see if username is duplicate
             'SELECT name FROM users WHERE name = $1', 
             [username]
@@ -36,21 +35,21 @@ const create_user = async (req, res, _) => {
             'INSERT INTO users(name, password, salt, date_created) VALUES($1, $2, $3, $4);',
             [username, hashed_pass, salt, today.toISOString()]
         )
+
+        res.status(200).send()
     } catch (err) {
         console.log(err)
         res.status(500).send()
         return
     }
 
-    res.status(200).send()
 }
 
 const login_user = async (req, res, _) => {
-    const username = req.query.user
-    const password = req.query.pass
-    const session_id = crypto.randomBytes(18).toString('base64') // 18 bytes so no padding when going to base64
-
     try {
+        const username = req.query.user
+        const password = req.query.pass
+        const session_id = crypto.randomBytes(18).toString('base64url') // 18 bytes so no padding when going to base64
         const user = await pool.query( 
             'SELECT password, id FROM users WHERE name = $1',
             [username]
@@ -75,77 +74,124 @@ const login_user = async (req, res, _) => {
             'INSERT INTO sessions(user_id, session_id) VALUES($1, $2);', 
             [user_id, session_id]
         )
+
+        // Send cookie back with sessionID
+        res
+            .status(200)
+            .cookie('sessionID', session_id, {
+                sameSite: 'Strict'
+            })
+            .send()
     } catch (err) {
         console.log(err)
         res.status(500).send()
         return
     }
     
-    // Send cookie back with sessionID
-    res
-        .status(200)
-        .cookie('sessionID', session_id, {
-            sameSite: 'Strict'
-        })
-        .send()
 }
 
 const user_in_fav = async user_id => {
-    const response = await pool.query(
-        'SELECT user_id FROM favorites WHERE user_id = $1',
-        [user_id]
-    )
-    
-    if (response.rows.length === 0) {   // User is not in favorites table
-        await pool.query(   // Add user to favorites table
-            'INSERT INTO favorites(user_id) VALUES($1)',
+    try {
+        const response = await pool.query(
+            'SELECT user_id FROM favorites WHERE user_id = $1',
             [user_id]
         )
+        
+        if (response.rows.length === 0) {   // User is not in favorites table
+            await pool.query(   // Add user to favorites table
+                'INSERT INTO favorites(user_id) VALUES($1)',
+                [user_id]
+            )
+        }
+    } catch (err) {
+        console.error(err)
     }
 }
 
 const user_from_session = async cookie => {
-    const session_cookie = cookie.split('; ').find(e => e.includes('sessionID'))
-    const session_id = session_cookie.split('=')[1]
-    const response = await pool.query(  // Get user_id associated with this session
-        'SELECT user_id FROM sessions WHERE session_id = $1',
-        [session_id]
-    )
-
-    return response.rows[0].user_id
+    try {
+        const session_cookie = cookie.split('; ').find(e => e.includes('sessionID'))
+        const session_id = session_cookie.split('=')[1]
+        const response = await pool.query(  // Get user_id associated with this session
+            'SELECT user_id FROM sessions WHERE session_id = $1',
+            [session_id]
+        )
+    
+        return response.rows[0].user_id
+    } catch (err) {
+        console.error(error)
+    }
 }
 
 const add_favorite = async (req, res, _) => {
-    const meal_id = req.body.meal_id
-    const user_id = await user_from_session(req.headers.cookie)
-
-    user_in_fav(user_id)   // Insert user into favorites if not in there
-
-    await pool.query(   // Add new favorite meal to user's favorite meals
-        'UPDATE favorites SET meals = array_append(meals, $1) WHERE user_id = $2',
-        [Number(meal_id), user_id]
-    )
-
-    res.status(200).send()
+    try {
+        const meal_id = req.body.meal_id
+        const user_id = await user_from_session(req.headers.cookie)
+    
+        user_in_fav(user_id)   // Insert user into favorites if not in there
+    
+        await pool.query(   // Add new favorite meal to user's favorite meals
+            'UPDATE favorites SET meals = array_append(meals, $1) WHERE user_id = $2',
+            [Number(meal_id), user_id]
+        )
+    
+        res.status(200).send()
+    } catch (err) {
+        console.error(err)
+        res.status(500).send()
+        return
+    }
 }
 
 const get_favorite = async (req, res, _) => {
-    const user_id = await user_from_session(req.headers.cookie)
-    // https://dba.stackexchange.com/questions/226456/how-can-i-get-a-unique-array-in-postgresql
-    const response = await pool.query(
-        'SELECT ARRAY(SELECT DISTINCT(meals) FROM (SELECT UNNEST(meals) AS meals FROM favorites WHERE user_id = $1) as meal_row) as meals;',
-        [user_id]
-    )
+    try {
+        const user_id = await user_from_session(req.headers.cookie)
+        // https://dba.stackexchange.com/questions/226456/how-can-i-get-a-unique-array-in-postgresql
+        const response = await pool.query(
+            'SELECT ARRAY(SELECT DISTINCT(meals) FROM (SELECT UNNEST(meals) AS meals FROM favorites WHERE user_id = $1) AS meal_row) AS meals;',
+            [user_id]
+        )
+        
+        const meals = response.rows[0]
+        res
+            .json(meals)
+            .status(200)
+    } catch (err) {
+        console.error(err)
+        res.status(500).send()
+        return
+    }
+}
+
+const delete_favorites = async (req, res, _) => {
+    try {
+        const user_id = await user_from_session(req.headers.cookie)
+        let delete_meals = Array.from(req.body.meals).map(id => Number(id))
+        const response = await pool.query(
+            'SELECT ARRAY(SELECT DISTINCT(meals) FROM (SELECT UNNEST(meals) AS meals FROM favorites WHERE user_id = $1) AS meal_row WHERE meals <> ALL($2)) AS meals;',
+            [user_id, delete_meals]
+        )
     
-    const meals = response.rows[0]
-    res
-        .json(meals)
-        .status(200)
+        const updated_meals = response.rows[0]
+        await pool.query(   // Add new favorite meal to user's favorite meals
+            'UPDATE favorites SET meals = $1 WHERE user_id = $2',
+            [updated_meals.meals, user_id]
+        )
+
+        res
+            .json(updated_meals)
+            .status(200)
+    } catch (err) {
+        console.error(err)
+        res.status(500).send()
+        return
+    }
 }
 
 module.exports = {
     create_user,
     login_user,
     add_favorite,
-    get_favorite
+    get_favorite,
+    delete_favorites
 }

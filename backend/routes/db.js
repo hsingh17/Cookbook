@@ -48,4 +48,16 @@ GET (/db/favorites):
 */
 router.get('/favorites', db_controller.get_favorite)
 
+
+/*
+DELETE (/db/favorites): 
+    PURPOSE
+            Delete from user's favorite meals
+    QUERY PARAMS
+           None
+    PATH PARAMS
+            NONE
+*/
+router.delete('/favorites', db_controller.delete_favorites)
+
 module.exports = router

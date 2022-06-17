@@ -1,0 +1,29 @@
+#container {
+    user-select: none;
+}
+
+.thumbnail {
+    position: relative;
+}
+
+.overlay {
+    position: absolute;
+    left: 2%;
+    top: 0;
+    width: 96%;
+    height: 100%;
+    background-color: transparent;
+    opacity: 70%;
+}
+
+.visible {
+    visibility: visible;  
+}
+
+.visible:hover {
+    cursor: pointer;
+}
+
+.invisible {
+    visibility: hidden;
+}
