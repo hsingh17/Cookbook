@@ -5,6 +5,7 @@ import Col from 'react-bootstrap/Col'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import MealThumbnail from './MealThumbnail'
+import CustomSpinner from './CustomSpinner'
 import '../styles/Favorites.css'
 
 const 
@@ -27,6 +28,7 @@ async function get_meal_data(obj) {
 
 function Favorites() {
     const [deleteMode, setDeleteMode] = useState(false) 
+    const [loaded, setLoaded] = useState(false) 
     const [favMeals, setFavMeals] = useState([]) 
     const switch_ref = useRef()
     let marked_meals = useRef(new Set())   // Meals that are marked for deletion
@@ -38,6 +40,7 @@ function Favorites() {
             let response = await fetch(URL + '/db/favorites', { credentials : 'include' })
             const obj = await response.json() // The meal IDs of the user's favorite meals
             const meal_data = await get_meal_data(obj)
+            setLoaded(true)
             setFavMeals(meal_data)
         }
 
@@ -62,6 +65,7 @@ function Favorites() {
     }
 
     const handle_delete = async _ => {
+        setLoaded(false)
         const URL = (
             (process.env.NODE_ENV === 'development') ? 
             process.env.REACT_APP_DEV_URL : 
@@ -84,7 +88,20 @@ function Favorites() {
         const meal_data = await get_meal_data(updated_meals)
         
         marked_meals.current.clear()
+        setLoaded(true)
         setFavMeals(meal_data)
+    }
+
+    if (document.cookie === '') {   // User is not logged in yet
+        return (
+            <Container>
+                <h1>Please login or sign up to use this feature.</h1>
+            </Container>
+        )
+    }
+
+    if (!loaded) {  // User logged in but their favorites haven't been fetched yet
+        return (<CustomSpinner msg={'Loading Favorites'} />)
     }
 
     return (

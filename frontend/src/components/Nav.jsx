@@ -40,8 +40,14 @@ function MyNav() {
                     </Navbar.Collapse>
                     
                     <Container className='ms-auto me-0 w-auto'>
-                        <Login />
-                        <SignUp />
+                        {
+                            document.cookie === '' ?
+                            <>
+                                <Login />
+                                <SignUp />
+                            </> :
+                            <span>Logged in</span>
+                        }
                     </Container>
                 </Container>
             </Navbar>

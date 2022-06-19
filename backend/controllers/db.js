@@ -39,8 +39,7 @@ const create_user = async (req, res, _) => {
         res.status(200).send()
     } catch (err) {
         console.log(err)
-        res.status(500).send()
-        return
+        return res.status(500).send()
     }
 
 }
@@ -56,8 +55,7 @@ const login_user = async (req, res, _) => {
         )   // Get the user with this username
         
         if (user.rows.length === 0) {   // No user with that name exists
-            res.status(404).send()
-            return
+            return res.status(404).send()
         }
         
         const hash = user.rows[0].password
@@ -65,8 +63,7 @@ const login_user = async (req, res, _) => {
 
         const match = await bcrypt.compare(password, hash)
         if (!match) {
-            res.status(404).send()
-            return
+            return res.status(404).send()
         }
                 
         // Add user to session table
@@ -84,8 +81,7 @@ const login_user = async (req, res, _) => {
             .send()
     } catch (err) {
         console.log(err)
-        res.status(500).send()
-        return
+        return res.status(500).send()
     }
     
 }
@@ -138,8 +134,7 @@ const add_favorite = async (req, res, _) => {
         res.status(200).send()
     } catch (err) {
         console.error(err)
-        res.status(500).send()
-        return
+        return res.status(500).send()
     }
 }
 
@@ -158,8 +153,7 @@ const get_favorite = async (req, res, _) => {
             .status(200)
     } catch (err) {
         console.error(err)
-        res.status(500).send()
-        return
+        return res.status(500).send()
     }
 }
 
@@ -183,8 +177,7 @@ const delete_favorites = async (req, res, _) => {
             .status(200)
     } catch (err) {
         console.error(err)
-        res.status(500).send()
-        return
+        return res.status(500).send()
     }
 }
 

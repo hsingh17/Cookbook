@@ -27,9 +27,8 @@
 
 ------------------
 Next:
-11. Replace favorite button with star or heart
-12. Don't allow user to favorite a meal if not logged in
-13. Remove login and sign up buttons with user's name in topleft if they're logged in
-14. Remove user from session table when they exit browser
 15. Sort by most favorited meals (Maybe?)
-16. Comments on meal posts (Maybe?)
+    - Add a table that keeps track of meal and it's favorite count
+16. Add favorite count to meal thumbnail and recipe
+17. Add logout button 
+17. Remove user from session table when they logout

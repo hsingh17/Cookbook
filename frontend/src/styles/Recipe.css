@@ -1,0 +1,37 @@
+#star-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.fa-star {
+    font-size: 2rem;
+    width: fit-content;
+    height: fit-content;
+    transition: color 100ms linear;
+}
+
+.fa-star:hover {
+    cursor: pointer;
+    color: #B2BEB5;
+}
+
+#warning-msg {
+    position: absolute;
+    display: inline-block;
+    width: 10.5rem;
+    z-index: 1;
+    top: 3rem;
+    right: 10%;
+    background-color: #FFCCCB;
+    border-radius: 5px;
+}
+
+.visible {
+    visibility: visible;
+}
+
+.invisible {
+    visibility: hidden;
+}

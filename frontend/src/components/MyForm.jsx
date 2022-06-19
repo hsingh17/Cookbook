@@ -1,29 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import Modal from 'react-bootstrap/Modal'
 import Button from 'react-bootstrap/Button'
 import Form from 'react-bootstrap/Form'
 import InputGroup from 'react-bootstrap/InputGroup'
-import Alert from 'react-bootstrap/Alert'
-import { useNavigate } from 'react-router-dom'
+import ErrorAlert from './ErrorAlert'
 
-function ErrorAlert(props) {
-    const show = props.show
-    const set_alert_off = props.set_alert_off
-    const variant = props.variant
-    const msg = props.msg
-
-    useEffect(_ => {
-        const id = setTimeout(_ => {
-            set_alert_off(id)
-        }, 5000)
-    })
-
-    return (
-        <>
-            {show && <Alert variant={variant}>{msg}</Alert>}
-        </>
-    )
-}
 
 function MyForm(props) {
     const [show, setShow] = useState(false)
@@ -32,6 +14,7 @@ function MyForm(props) {
     const [variant, setVariant] = useState('')
     const [validated, setValidated] = useState(false)
     const navigate = useNavigate()
+
     const nav_btn_txt = props.nav_btn_txt
     const modal_btn_txt = props.modal_btn_txt
     const title = props.title
@@ -83,13 +66,17 @@ function MyForm(props) {
                 setVariant('success')
             } else if (status && !sign_up) { // Successful login
                 setShow(false)
-                navigate('/favorites')  // Redirect to favorites
+                
+                if (window.location.pathname === '/favorites') {
+                    window.location.reload()   // Refresh favorites if already at favorites
+                } else {
+                    navigate('/favorites')  // Redirect to favorites
+                }
             }
         } catch (err) {
             console.error(err)
         }
 
-    
         setValidated(true)  // By setting to true, we apply feedback styles
     }
 

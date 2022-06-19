@@ -1,9 +1,9 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
 import Image from 'react-bootstrap/Image'
-import Button from 'react-bootstrap/Button'
+import '../styles/Recipe.css'
 
 function parse_instructions(data) {
     // Split instructions by newline and filter out any blank lines
@@ -32,6 +32,7 @@ function parse_ingredients_measures(data, type) {
 }
 
 function Recipe(props) {
+    const [showAlert, setShowAlert] = useState(false)
     const { meals } = props.data || {} // https://stackoverflow.com/questions/25187903/what-do-curly-braces-around-javascript-variable-name-mean
     const valid = meals !== undefined
     const meal = (valid) ? meals[0] : {}
@@ -46,7 +47,15 @@ function Recipe(props) {
         measures        : (valid) ? parse_ingredients_measures(meal, 0) : []    
     }
 
-    const favorite_meal = async _ => {
+    const toggle_alert = e => {
+        if (document.cookie !== '') { return } // No need to show tooltip alert
+        setShowAlert(e.type === 'mouseover')     
+    }
+
+    const favorite_meal = async e => {
+        if (document.cookie === '') { return }  // User not logged in
+
+        e.target.style.color = '#B2BEB5'
         const URL = (
                             (process.env.NODE_ENV === 'development') ? 
                             process.env.REACT_APP_DEV_URL : 
@@ -67,10 +76,24 @@ function Recipe(props) {
     return (
         <Container>
             <Row>
-                <Button onClick={favorite_meal}>Favorite</Button>
-            </Row>
-            <Row>
-                <h1>{meal_obj.name}</h1>
+                <Col sm={10}>
+                    <h1>{meal_obj.name}</h1>
+                </Col>
+
+                <Col sm={2} id='star-container'>
+                    <i 
+                        className='fa-solid fa-star' 
+                        onClick={e => {favorite_meal(e)}}
+                        onMouseOver={e => {toggle_alert(e)}}
+                        onMouseLeave={e => {toggle_alert(e)}}
+                    >
+                    </i>
+                    <span 
+                        id='warning-msg' 
+                        className={showAlert ? 'visible' : 'invisible'}>
+                        You must login for this!
+                    </span>
+                </Col>
             </Row>
 
             <Row>
