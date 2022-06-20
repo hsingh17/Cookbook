@@ -32,27 +32,22 @@ function Search() {
 
     useEffect(_ => {
         async function wrapper() {
-            setData(await fetch_meals(filter))
+            if ((filter in CACHE)) {
+                setData(CACHE[filter])
+            } else {
+                setData(await fetch_meals(filter))
+            }
             setReady(true)
         }
 
         wrapper()
-    }, [])
+    }, [filter])
     
     const new_filter = f => {
-        async function wrapper() {
-            setData(await fetch_meals(f))
-            setReady(true)
-        }
-
+        if (f === filter) { return }    // Filter didn't change
+        setSearchTerm('')
+        setReady(false)
         setFilter(f)
-        if (!(f in CACHE)) { 
-            setReady(false)
-            wrapper() 
-        } else {
-            setData(CACHE[f])
-            setReady(true)
-        }
     }
     
     const handle_input = _ => { setSearchTerm(input.current.value) }

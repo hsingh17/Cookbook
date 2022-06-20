@@ -1,10 +1,12 @@
-import React from 'react'
+import React, { useState } from 'react'
 import Random from './Random.jsx'
 import Search from './Search.jsx'
 import Favorites from './Favorites.jsx'
 import Meals from './Meals.jsx'
 import Error from './Error.jsx'
 import SignUp from './Signup.jsx'
+import Login from './Login.jsx'
+import Logout from './Logout.jsx'
 import { 
         Route, 
         BrowserRouter as Router, 
@@ -14,9 +16,14 @@ import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
 import '../styles/Nav.css'
-import Login from './Login.jsx'
 
 function MyNav() {
+    const [loggedIn, setLoggedIn] = useState(document.cookie !== '')
+
+    const login_wrapper = login => {
+        setLoggedIn(login)
+    }
+
     return (
         <Router>
             <Navbar id='my-nav' sticky='top' expand='lg'>
@@ -41,23 +48,23 @@ function MyNav() {
                     
                     <Container className='ms-auto me-0 w-auto'>
                         {
-                            document.cookie === '' ?
+                            !loggedIn ?
                             <>
-                                <Login />
+                                <Login handle_login={login_wrapper} />
                                 <SignUp />
                             </> :
-                            <span>Logged in</span>
+                            <Logout handle_login={login_wrapper} />
                         }
                     </Container>
                 </Container>
             </Navbar>
 
             <Routes>
-                <Route path ='/search' element={<Search/>}/>
-                <Route path ='/random' element={<Random/>}/>
-                <Route path ='/favorites' element={<Favorites/>}/>
-                <Route path ='/meals/:id' element={<Meals/>}/>
-                <Route path ='*' element={<Error/>}/>
+                <Route path ='/search' element={<Search/>} />
+                <Route path ='/random' element={<Random/>} />
+                <Route path ='/favorites' element={<Favorites logged_in={loggedIn} />} />
+                <Route path ='/meals/:id' element={<Meals/>} />
+                <Route path ='*' element={<Error/>} />
             </Routes>
         </Router>
     )

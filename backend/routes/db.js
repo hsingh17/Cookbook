@@ -26,6 +26,17 @@ GET (/db/users?user=&pass=):
 router.get('/users', db_controller.login_user)
 
 /*
+DELETE (/db/users): 
+    PURPOSE
+            Log a user out by deleting their cookie and session 
+    QUERY PARAMS
+           None
+    PATH PARAMS
+            NONE
+*/
+router.delete('/users', db_controller.logout_user)
+
+/*
 POST (/db/favorites): 
     PURPOSE
             Add a favorite meal to a user

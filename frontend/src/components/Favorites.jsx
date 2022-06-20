@@ -26,7 +26,8 @@ async function get_meal_data(obj) {
     }))
 }
 
-function Favorites() {
+function Favorites(props) {
+    const logged_in = props.logged_in
     const [deleteMode, setDeleteMode] = useState(false) 
     const [loaded, setLoaded] = useState(false) 
     const [favMeals, setFavMeals] = useState([]) 
@@ -35,7 +36,7 @@ function Favorites() {
 
     useEffect(_ => {
         const get_favorite = async _ => {
-            if (document.cookie === '') { return }  // Don't do anything if no cookie
+            if (!logged_in) { return }  // Don't do anything if no cookie
             
             let response = await fetch(URL + '/db/favorites', { credentials : 'include' })
             const obj = await response.json() // The meal IDs of the user's favorite meals
@@ -45,7 +46,7 @@ function Favorites() {
         }
 
         get_favorite()
-    }, [])
+    }, [logged_in])
 
     const handle_switch = _ => {
         setDeleteMode(!deleteMode)   // Toggle delete mode
@@ -88,11 +89,12 @@ function Favorites() {
         const meal_data = await get_meal_data(updated_meals)
         
         marked_meals.current.clear()
+        setDeleteMode(false)
         setLoaded(true)
         setFavMeals(meal_data)
     }
 
-    if (document.cookie === '') {   // User is not logged in yet
+    if (!logged_in) {   // User is not logged in yet
         return (
             <Container>
                 <h1>Please login or sign up to use this feature.</h1>

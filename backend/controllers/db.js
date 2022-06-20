@@ -76,7 +76,7 @@ const login_user = async (req, res, _) => {
         res
             .status(200)
             .cookie('sessionID', session_id, {
-                sameSite: 'Strict'
+                sameSite : 'Strict'
             })
             .send()
     } catch (err) {
@@ -84,6 +84,26 @@ const login_user = async (req, res, _) => {
         return res.status(500).send()
     }
     
+}
+
+const logout_user = async (req, res, _) => {
+    try {
+        const user_id = await user_from_session(req.headers.cookie)
+        await pool.query(
+            'DELETE FROM sessions * WHERE user_id = $1',
+            [user_id]
+        )   // Remove user from session table
+
+        res
+            .clearCookie('sessionID', {
+                sameSite : 'Strict'
+            })   // clear out the sessionID cookie
+            .status(205)    // 205 = refresh page
+            .send()
+    } catch (err) {
+        console.error(err)
+        return res.status(500).send()
+    }
 }
 
 const user_in_fav = async user_id => {
@@ -115,7 +135,7 @@ const user_from_session = async cookie => {
     
         return response.rows[0].user_id
     } catch (err) {
-        console.error(error)
+        console.error(err)
     }
 }
 
@@ -184,6 +204,7 @@ const delete_favorites = async (req, res, _) => {
 module.exports = {
     create_user,
     login_user,
+    logout_user,
     add_favorite,
     get_favorite,
     delete_favorites
