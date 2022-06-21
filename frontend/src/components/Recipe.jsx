@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import Col from 'react-bootstrap/Col'
@@ -32,6 +32,7 @@ function parse_ingredients_measures(data, type) {
 }
 
 function Recipe(props) {
+    const [update, setUpdate] = useState(false)
     const [showAlert, setShowAlert] = useState(false)
     const { meals } = props.data || {} // https://stackoverflow.com/questions/25187903/what-do-curly-braces-around-javascript-variable-name-mean
     const valid = meals !== undefined
@@ -62,8 +63,8 @@ function Recipe(props) {
                             process.env.REACT_APP_PROD_URL
                         ) + '/db/favorites'
         
-        const meal_id_obj = {meal_id : meal.idMeal}
-        await fetch(URL, {
+        const meal_id_obj = { meal_id : meal.idMeal }
+        const response = await fetch(URL, {
             method      :   'POST',
             body        :   JSON.stringify(meal_id_obj),
             credentials :   'include',
@@ -71,8 +72,28 @@ function Recipe(props) {
                 'Content-Type' : 'application/json'
             }
         })
+        const status = response.ok
+        if (status) {   // Successfully favorited the meal
+            setUpdate(!update)
+        }
     }
 
+    useEffect(_ => {
+        async function wrapper() {
+            const URL = (
+                (process.env.NODE_ENV === 'development') ? 
+                process.env.REACT_APP_DEV_URL : 
+                process.env.REACT_APP_PROD_URL
+            ) + `/db/meals?meal_id=${meal.idMeal}`
+    
+            const response = await fetch(URL)
+            const obj = await response.json()
+            document.getElementById('fav-cnt').textContent = obj.fav_cnt
+       }
+
+       wrapper()
+    }, [update])
+    
     return (
         <Container>
             <Row>
@@ -88,6 +109,7 @@ function Recipe(props) {
                         onMouseLeave={e => {toggle_alert(e)}}
                     >
                     </i>
+                    <h1 id='fav-cnt'></h1>
                     <span 
                         id='warning-msg' 
                         className={showAlert ? 'visible' : 'invisible'}>

@@ -120,7 +120,25 @@ const user_in_fav = async user_id => {
             )
         }
     } catch (err) {
-        console.error(err)
+        throw err
+    }
+}
+
+const meal_in_fav = async meal_id => {
+    try {
+        const response = await pool.query(
+            'SELECT meal FROM favorite_meals WHERE meal = $1',
+            [meal_id]
+        )
+        
+        if (response.rows.length === 0) {   // Meal is not in favorites table
+            await pool.query(   // Add meal to favorites table
+                'INSERT INTO favorite_meals(meal) VALUES($1)',
+                [meal_id]
+            )
+        }
+    } catch (err) {
+        throw err
     }
 }
 
@@ -135,26 +153,50 @@ const user_from_session = async cookie => {
     
         return response.rows[0].user_id
     } catch (err) {
-        console.error(err)
+        throw err
     }
 }
 
 const add_favorite = async (req, res, _) => {
+    const client = await pool.connect()
     try {
-        const meal_id = req.body.meal_id
+        const meal_id = Number(req.body.meal_id)
         const user_id = await user_from_session(req.headers.cookie)
-    
-        user_in_fav(user_id)   // Insert user into favorites if not in there
-    
-        await pool.query(   // Add new favorite meal to user's favorite meals
-            'UPDATE favorites SET meals = array_append(meals, $1) WHERE user_id = $2',
-            [Number(meal_id), user_id]
+
+        await client.query('BEGIN')
+        const response = await client.query(    // Check if meal already favorited by user
+            'SELECT * FROM FAVORITES WHERE user_id = $1 and $2 = ANY(meals)',
+            [user_id, meal_id]
         )
+        
+        if (response.rows.length !== 0) {   // Meal already favorited
+            res.status(409).send()
+            return
+        }
+        
+        await user_in_fav(user_id)   // Insert user into favorites if not in there
     
+        await client.query(   // Add new favorite meal to user's favorite meals
+            'UPDATE favorites SET meals = array_append(meals, $1) WHERE user_id = $2',
+            [meal_id, user_id]
+        )
+
+
+        await meal_in_fav(meal_id)    // Insert meal into favorite's counter table if not there
+
+        await client.query (    // Update this meal's favorite counter
+            'UPDATE favorite_meals SET fav_cnt = fav_cnt + 1 WHERE meal = $1',
+            [meal_id]
+        )
+        
+        await client.query('COMMIT')
         res.status(200).send()
     } catch (err) {
+        await client.query('ROLLBACK')
         console.error(err)
         return res.status(500).send()
+    } finally {
+        client.release()
     }
 }
 
@@ -163,11 +205,14 @@ const get_favorite = async (req, res, _) => {
         const user_id = await user_from_session(req.headers.cookie)
         // https://dba.stackexchange.com/questions/226456/how-can-i-get-a-unique-array-in-postgresql
         const response = await pool.query(
-            'SELECT ARRAY(SELECT DISTINCT(meals) FROM (SELECT UNNEST(meals) AS meals FROM favorites WHERE user_id = $1) AS meal_row) AS meals;',
+            'SELECT meals FROM favorites WHERE user_id = $1',
             [user_id]
         )
         
-        const meals = response.rows[0]
+        let meals = response.rows[0]
+        if (meals === undefined) {  // In case user has no favorited meals yet
+            meals = { meals : [] }
+        }
         res
             .json(meals)
             .status(200)
@@ -178,23 +223,57 @@ const get_favorite = async (req, res, _) => {
 }
 
 const delete_favorites = async (req, res, _) => {
+    const client = await pool.connect()
     try {
         const user_id = await user_from_session(req.headers.cookie)
-        let delete_meals = Array.from(req.body.meals).map(id => Number(id))
-        const response = await pool.query(
-            'SELECT ARRAY(SELECT DISTINCT(meals) FROM (SELECT UNNEST(meals) AS meals FROM favorites WHERE user_id = $1) AS meal_row WHERE meals <> ALL($2)) AS meals;',
+        const delete_meals = Array.from(req.body.meals).map(id => Number(id))
+        
+        await client.query('BEGIN')
+        const response = await client.query(
+            'SELECT ARRAY(SELECT meals FROM (SELECT UNNEST(meals) AS meals FROM favorites WHERE user_id = $1) AS meal_row WHERE meals <> ALL($2)) AS meals;',
             [user_id, delete_meals]
         )
     
         const updated_meals = response.rows[0]
-        await pool.query(   // Add new favorite meal to user's favorite meals
+        await client.query(   // Update user's favorite meals post-deletion
             'UPDATE favorites SET meals = $1 WHERE user_id = $2',
             [updated_meals.meals, user_id]
         )
 
+        await Promise.all(delete_meals.map(async meal => {
+            await client.query(
+                'UPDATE favorite_meals SET fav_cnt = fav_cnt - 1 WHERE meal = $1',
+                [meal]
+            )
+        }))
+        
+        await client.query('COMMIT')
+
         res
             .json(updated_meals)
             .status(200)
+    } catch (err) {
+        await client.query('ROLLBACK')
+        console.error(err)
+        return res.status(500).send()
+    } finally {
+        client.release()
+    }
+}
+
+const get_meal_fav_cnt = async (req, res, _) => {
+    try {
+        const meal_id = Number(req.query.meal_id)
+        const response = await pool.query(
+            'SELECT fav_cnt FROM favorite_meals WHERE meal = $1',
+            [meal_id]
+        )
+        
+        const ret = (response.rows[0] === undefined) ? { fav_cnt : 0 } : (response.rows[0])
+
+        res
+            .status(200)
+            .json(ret)
     } catch (err) {
         console.error(err)
         return res.status(500).send()
@@ -207,5 +286,6 @@ module.exports = {
     logout_user,
     add_favorite,
     get_favorite,
-    delete_favorites
+    delete_favorites,
+    get_meal_fav_cnt
 }

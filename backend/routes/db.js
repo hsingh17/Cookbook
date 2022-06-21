@@ -71,4 +71,15 @@ DELETE (/db/favorites):
 */
 router.delete('/favorites', db_controller.delete_favorites)
 
+/*
+GET (/db/meals?meal_id=): 
+    PURPOSE
+            Get favorite count for a meal
+    QUERY PARAMS
+           meal_id : id of meal to get favorite count of
+    PATH PARAMS
+            NONE
+*/
+router.get('/meals', db_controller.get_meal_fav_cnt)
+
 module.exports = router

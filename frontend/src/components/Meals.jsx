@@ -25,7 +25,7 @@ function Meals() {
         }
 
         wrapper()
-    })
+    }, [params.id])
 
     return (
         <Container>

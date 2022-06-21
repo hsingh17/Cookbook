@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Home from './Home.jsx'
 import Random from './Random.jsx'
 import Search from './Search.jsx'
 import Favorites from './Favorites.jsx'
@@ -30,7 +31,7 @@ function MyNav() {
                 <Container>
                     <Navbar.Toggle aria-controls='navbar'/>
                     <Navbar.Collapse id='navbar'>
-                        <Navbar.Brand href=''>Cookbook</Navbar.Brand>
+                        <Navbar.Brand href='/'>Cookbook</Navbar.Brand>
                         <Nav>
                             <Nav.Link href='/search'>
                                 <span> Search </span>
@@ -60,11 +61,12 @@ function MyNav() {
             </Navbar>
 
             <Routes>
-                <Route path ='/search' element={<Search/>} />
-                <Route path ='/random' element={<Random/>} />
+                <Route path ='/' element={<Home />} />
+                <Route path ='/search' element={<Search />} />
+                <Route path ='/random' element={<Random />} />
                 <Route path ='/favorites' element={<Favorites logged_in={loggedIn} />} />
-                <Route path ='/meals/:id' element={<Meals/>} />
-                <Route path ='*' element={<Error/>} />
+                <Route path ='/meals/:id' element={<Meals />} />
+                <Route path ='*' element={<Error />} />
             </Routes>
         </Router>
     )

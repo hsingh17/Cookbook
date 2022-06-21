@@ -26,22 +26,20 @@ function Random() {
 
     useEffect(_ => {
         async function wrapper() {
+            if (ready) { return }   // Don't fetch a meal if we already have one loading up
             fetch_meal()
         }
 
         wrapper()
-    }, [])  //  https://stackoverflow.com/questions/53120972/how-to-call-loading-function-with-react-useeffect-only-once
+    }, [ready]) 
 
     return (
         <Container>
             {ready ?
                     <Container className='d-flex flex-column align-items-center'>
                         <Recipe key={id} data={data}/>
-                        <Button variant='dark' onClick={ async _ => {
-                            setData({})
-                            setId('')
+                        <Button variant='dark' onClick={ _ => {
                             setReady(false)
-                            fetch_meal()
                         }} className='mb-4'>
                             Cook me up something else 🍳!
                         </Button>
