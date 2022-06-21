@@ -21,7 +21,7 @@ function get_list(cat, search_term, data) {
             {
                 meals.map(meal => {
                     return (
-                        <MealThumbnail key={meal.idMeal} data={meal} />
+                        <MealThumbnail key={meal.idMeal} data={meal} show_fav={true}/>
                     )
                 })
             }

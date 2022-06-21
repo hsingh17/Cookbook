@@ -5,14 +5,14 @@
     position: relative;
 }
 
-.fa-star {
+#recipe-star {
     font-size: 2rem;
     width: fit-content;
     height: fit-content;
     transition: color 100ms linear;
 }
 
-.fa-star:hover {
+#recipe-star:hover {
     cursor: pointer;
     color: #B2BEB5;
 }

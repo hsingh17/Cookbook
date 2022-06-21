@@ -1,3 +1,39 @@
 .link {
     text-decoration: none;
 }
+
+#card-body {
+    position: relative;
+}
+
+#fav-container {
+    font-size: 2rem;
+    position: absolute;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    top: 0.5rem;
+    left: 1rem;
+    width: fit-content;
+    background-color: #FFFFFF;
+    color: #000000;
+    border-radius: 50px;
+    padding-right: 1rem;
+}
+
+
+#thumbnail-star {
+    padding-left: 0.5rem;
+}
+
+#thumbnail-star:hover {
+    color: #000000;
+}
+
+.visible {
+    visibility: visible;
+}
+
+.invisible {
+    visibility: hidden;
+}

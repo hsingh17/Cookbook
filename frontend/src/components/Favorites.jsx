@@ -133,7 +133,7 @@ function Favorites(props) {
                     Array.from(favMeals).map(meal => {
                         return (
                             <div className='thumbnail' key={meal.meals[0].idMeal}>
-                                <MealThumbnail data={meal.meals[0]} />
+                                <MealThumbnail data={meal.meals[0]} show_fav={false} />
                                 <div 
                                     id={meal.meals[0].idMeal} 
                                     className={deleteMode ? 'overlay visible' : 'overlay invisible'}

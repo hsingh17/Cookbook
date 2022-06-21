@@ -103,7 +103,8 @@ function Recipe(props) {
 
                 <Col sm={2} id='star-container'>
                     <i 
-                        className='fa-solid fa-star' 
+                        className='fa-solid fa-star'
+                        id='recipe-star' 
                         onClick={e => {favorite_meal(e)}}
                         onMouseOver={e => {toggle_alert(e)}}
                         onMouseLeave={e => {toggle_alert(e)}}

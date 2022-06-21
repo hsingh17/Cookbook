@@ -1,6 +1,7 @@
 const fetch = require('node-fetch')
 const URL = 'https://www.themealdb.com/api/json/v1/1/'
-const CATEGORIES = [
+const 
+    CATEGORIES = [
         'Beef',
         'Breakfast',
         'Chicken',
@@ -15,8 +16,8 @@ const CATEGORIES = [
         'Starter',
         'Vegan',
         'Vegetarian'
-    ]
-const AREAS = [
+    ],
+    AREAS = [
         'American',
         'British',
         'Canadian',
@@ -72,10 +73,12 @@ const filter_meals = async (req, res, _) => {
     // .map function lets us run each fetch in parallel
     await Promise.all(Object.keys(meals).map(async filter  => {
         const search = (valid_filter) ? `filter.php?${filter_type}=${filter}` : `search.php?f=${filter}`
-        const response = await fetch(`${URL}/${search}`)
-        const data = await response.json()
+        const response = await fetch(`${URL}/${search}`) // Get data from API
+        const data = await response.json()  
         meals[filter] = data
     }))
+
+
     res.status(200).json(meals)
 }
 
