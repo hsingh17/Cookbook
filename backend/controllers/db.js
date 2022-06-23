@@ -76,7 +76,8 @@ const login_user = async (req, res, _) => {
         res
             .status(200)
             .cookie('sessionID', session_id, {
-                sameSite : 'Strict'
+                sameSite    :   'Strict',
+                maxAge      :   2**52
             })
             .send()
     } catch (err) {

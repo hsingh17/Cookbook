@@ -15,7 +15,7 @@ function MealThumbnail(props) {
     const observer = useRef(new IntersectionObserver(entries => {
         entries.forEach(entry => {
             const { isIntersecting } = entry
-            if (isIntersecting && card_img !== null) {
+            if (isIntersecting && card_img.current !== null) {
                 card_img.current.src = data.strMealThumb
                 observer.current.disconnect()
             }

@@ -100,7 +100,11 @@ function Search() {
                             </DropdownButton>
                         </InputGroup>
 
-                        <MealList key={data.length} data={data} search_term={search_term} />
+                        {
+                            data !== undefined ? 
+                            <MealList key={data.length} data={data} search_term={search_term} /> : 
+                            <></>
+                        }
                     </Container>
                 : 
                     <CustomSpinner msg={'Sit tight. We\'re getting you those meals 🔎'}/>
