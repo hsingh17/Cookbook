@@ -29,9 +29,11 @@ function MyNav() {
         <Router>
             <Navbar id='my-nav' sticky='top' expand='lg'>
                 <Container>
-                    <Navbar.Toggle aria-controls='navbar'/>
+                    <Navbar.Toggle aria-controls='navbar'id='toggle'/>
                     <Navbar.Collapse id='navbar'>
-                        <Navbar.Brand href='/'>Cookbook</Navbar.Brand>
+                        <Navbar.Brand href='/'>
+                            <span> Cookbook </span>
+                        </Navbar.Brand>
                         <Nav>
                             <Nav.Link href='/search'>
                                 <span> Search </span>

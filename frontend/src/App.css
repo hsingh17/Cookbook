@@ -3,3 +3,8 @@
     --secondary-color: #2B303A;
     --font: 'Lato', sans-serif;;
 }
+
+body {
+    background-color: var(--primary-color);
+    font-family: var(--font);
+}
