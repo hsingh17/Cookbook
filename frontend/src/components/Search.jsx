@@ -45,8 +45,6 @@ async function fetch_meals(f) {
                 return (meal1.favCnt < meal2.favCnt) ? 1 : -1
             })
 
-            console.log(meals)
-
             let fav_data = {
                 'Sorted by Favorites' : { meals : meals } 
             }

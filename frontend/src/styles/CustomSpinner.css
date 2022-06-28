@@ -1,3 +1,71 @@
+@keyframes move-right-arm {
+    25% {
+        transform: rotate(-20deg);
+    }
+
+    50% {
+        transform: rotate(0deg);
+    }
+}
+
+@keyframes spatula-animation {
+    25% {
+        transform: rotate(-20deg) translate(50%, -20%);
+    }
+
+    50% {
+        transform: rotate(0deg) translate(0);
+    }
+}
+
+@keyframes patty-up {
+    11% {
+        transform: translateY(-150px) rotate(-720deg);
+    }
+
+    22% {
+        transform: translateY(-300px) rotate(720deg);
+    } 
+
+    45% {
+        transform: translateY(0px) rotate(0deg);
+    }
+}
+
 #spinner-wrapper {
-    height: 100vh;
+    margin: 0;
+    padding: 0;
+}
+
+#spinner-msg {
+    font-weight: 700;
+    margin-top: -9rem;
+    font-size: 2rem;
+    text-align: center;
+}
+
+#bbq-svg {
+    scale: 0.5;
+}
+
+#svg-background {
+    fill: var(--primary-color)
+}
+
+#right-arm {
+    transform-box: fill-box;
+    transform-origin: top left;
+    animation: move-right-arm infinite 2s linear;
+}
+
+#spatula {
+    transform-box: fill-box;
+    transform-origin: 30% 60%;
+    animation: spatula-animation infinite 2s linear;
+}
+
+#patty {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: patty-up infinite 2s 200ms linear;
 }

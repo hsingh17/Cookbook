@@ -2,6 +2,7 @@ import React from 'react'
 import Container from 'react-bootstrap/Container'
 import Row from 'react-bootstrap/Row'
 import MealThumbnail from './MealThumbnail'
+import '../styles/MealList.css'
 
 function get_list(cat, search_term, data) {
     let { meals } = data
@@ -15,7 +16,7 @@ function get_list(cat, search_term, data) {
 
     return (
         <Container key={cat + meals.length}>
-            <h1 className='display-4'>{cat}</h1>
+            <h1 className='display-4' id='category'>{cat}</h1>
             <hr />
             <Row key={cat} xs={1} md={2} lg={3} className='g-4'>
             {

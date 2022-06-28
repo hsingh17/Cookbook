@@ -16,6 +16,7 @@ import {
 import Container from 'react-bootstrap/Container'
 import Navbar from 'react-bootstrap/Navbar'
 import Nav from 'react-bootstrap/Nav'
+import RecipeSVG from '../media/recipe.svg'
 import '../styles/Nav.css'
 
 function MyNav() {
@@ -32,6 +33,12 @@ function MyNav() {
                     <Navbar.Toggle aria-controls='navbar'id='toggle'/>
                     <Navbar.Collapse id='navbar'>
                         <Navbar.Brand href='/'>
+                            <img
+                                id='logo'
+                                alt='recipe svg'
+                                src={RecipeSVG}
+                                className='d-inline-block align-top'
+                            />{' '}
                             <span> Cookbook </span>
                         </Navbar.Brand>
                         <Nav>

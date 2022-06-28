@@ -4,6 +4,11 @@
 
 #card-body {
     position: relative;
+    background-color: var(--secondary-color);
+}
+
+#card-body h3 {
+    color: #FFFFFF;
 }
 
 #fav-container {
@@ -15,19 +20,18 @@
     top: 0.5rem;
     left: 1rem;
     width: fit-content;
-    background-color: #FFFFFF;
-    color: #000000;
+    background-color: var(--secondary-color);
+    color: #FFFFFF;
     border-radius: 50px;
     padding-right: 1rem;
 }
-
 
 #thumbnail-star {
     padding-left: 0.5rem;
 }
 
 #thumbnail-star:hover {
-    color: #000000;
+    color: #FFFFFF;
 }
 
 .visible {
