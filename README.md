@@ -62,7 +62,7 @@ Similar to above, I encourage you to make the changes you wish in your own fork 
 - [Undraw](https://undraw.co/) 
     - SVG of man barbequing
     - SVG of lost person
--[SVG Repo](https://www.svgrepo.com/)
+- [SVG Repo](https://www.svgrepo.com/)
     - SVG of recipe book
     - SVG of question mark
 - [Favicon.io](https://favicon.io/)
