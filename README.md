@@ -24,7 +24,8 @@ Here are the features available right now:
 - [Heroku](https://www.heroku.com/)
 
 ## What is the web app's architecture?
-The following is how the web app is layed out.
+The following is how the web app is layed out:
+![Diagram](./img/diagram.svg)
 
 The user interfaces with the frontend created with React and React Bootstrap. The user's HTTP requests are then sent to the backend Express server where, depending on the route, it will either fetch from the external API at MealDB or perform operations on the PostgreSQL database.
 
@@ -60,11 +61,9 @@ Similar to above, I encourage you to make the changes you wish in your own fork 
 - [Pexels](https://www.pexels.com/video/flatlay-ingredients-5865849)
     - Background video
 - [Undraw](https://undraw.co/) 
-    - SVG of man barbequing
-    - SVG of lost person
+    - Various SVGs 
 - [SVG Repo](https://www.svgrepo.com/)
-    - SVG of recipe book
-    - SVG of question mark
+    - Various SVGs
 - [Favicon.io](https://favicon.io/)
     - Favicon of chef emoji
 --- 
