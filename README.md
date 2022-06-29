@@ -55,7 +55,7 @@ I likely will not be making any changes on this project unless they are severely
 Similar to above, I encourage you to make the changes you wish in your own fork of the repository.
 
 ## Credits
--[MealDB](https://www.themealdb.com/api.php)
+- [MealDB](https://www.themealdb.com/api.php)
     - API used in the project
 - [Pexels](https://www.pexels.com/video/flatlay-ingredients-5865849)
     - Background video
