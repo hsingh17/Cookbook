@@ -10,11 +10,15 @@ const search_route = require('./routes/search')
 const filter_route = require('./routes/filter')
 const db_route = require('./routes/db')
 
+if (process.env.NODE_ENV === 'production') {    // For production, we need to serve build folder
+    app.use(express.static('../frontend/build'))
+}
 
 app.use(cors({
-    origin: process.env.URL_DEV,    // Need to specify exact origin when allowing credentials
+    origin: (process.env.NODE_ENV === 'development') ? process.env.URL_DEV : process.env.URL_PROD,    // Need to specify exact origin when allowing credentials
     credentials: true,  // https://stackoverflow.com/questions/24687313/what-exactly-does-the-access-control-allow-credentials-header-do
 }))
+
 
 app.use(express.urlencoded({
     extended : true
