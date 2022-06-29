@@ -1,0 +1,53 @@
+@keyframes pop {
+    0% {
+        transform: scale(0);
+    }
+
+    10%, 30%, 50%, 70% {
+        transform: scale(1.5);
+    }
+
+    20%, 40%, 60%, 80% {
+        transform: scale(1.25);
+    }
+
+    90% {
+        transform: scale(0);
+    }
+}
+
+#error-wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+#lost-person {
+    transform: scale(0.5);
+}
+
+.question-mark-svg {
+    transform-box: fill-box;
+    transform-origin: center center;
+}
+
+#question-mark1 {
+    transform: scale(0);
+    animation: pop ease-in-out 5s 900ms infinite forwards;
+}
+
+#question-mark2 {
+    transform: scale(0);
+    animation: pop ease-in-out 5s 600ms infinite forwards;
+}
+
+#question-mark3 {
+    transform: scale(0);
+    animation: pop ease-in-out 5s 300ms infinite forwards;
+}
+
+#error-wrapper h1 {
+    margin-top: -10rem;
+    text-align: center;
+}

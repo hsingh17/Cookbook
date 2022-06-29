@@ -45,10 +45,10 @@
 }
 
 #bbq-svg {
-    scale: 0.5;
+    transform: scale(0.5);
 }
 
-#svg-background {
+.svg-background {
     fill: var(--primary-color)
 }
 

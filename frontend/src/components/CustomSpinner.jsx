@@ -5,7 +5,7 @@ import '../styles/CustomSpinner.css'
 function AnimatedSVG() {
     return (
         <svg id= 'bbq-svg' width="723" height="671" viewBox="0 0 723 671" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect id='svg-background' width="723" height="671" fill="#F5F5F5"/>
+            <rect className='svg-background' width="723" height="671" fill="#F5F5F5"/>
             <g id="bbq_guy" clipPath="url(#clip0_0_1)">
                 <g id="left-arm">
                     <path id="left-arm_2" d="M139.891 350.293L142.027 390.174C142.106 391.641 141.868 393.108 141.33 394.475C140.791 395.841 139.965 397.076 138.907 398.096C137.849 399.115 136.585 399.895 135.199 400.382C133.813 400.869 132.339 401.052 130.876 400.919V400.919C128.485 400.702 126.246 399.651 124.551 397.951C122.856 396.251 121.812 394.009 121.602 391.617L117.735 347.523L87.2695 244.127L88.1927 177.658L124.197 179.504L139.891 350.293Z" fill="#FFB9B9"/>
