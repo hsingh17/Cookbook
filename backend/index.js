@@ -12,6 +12,7 @@ const db_route = require('./routes/db')
 
 if (process.env.NODE_ENV === 'production') {    // For production, we need to serve build folder
     app.use(express.static('../frontend/build'))
+    console.log(__dirname)
     app.get('/', (req, res) => {
         res.sendFile('../frontend/build/index.html')
     })
