@@ -12,8 +12,7 @@ const pool =
                     password    :   process.env.DB_PASSWORD,
                     port        :   process.env.DB_PORT 
             }) :
-            new Pool({connectionString : 'postgres://xjbulhsftbyhgl:fcba2bd5a84ec4534acea7778269c17077b861f46b61f691300409a75a838842@ec2-44-206-89-185.compute-1.amazonaws.com:5432/d9pn3d6vvr310s', ssl: {rejectUnauthorized: false}})    // Heroku uses a connection URI to connect to database
-            //todo: replace with process.env.DATABASE_URL
+            new Pool({connectionString : process.env.DATABASE_URL, ssl: {rejectUnauthorized: false}})    // Heroku uses a connection URI to connect to database
             
 const create_user = async (req, res, _) => {
     try {
