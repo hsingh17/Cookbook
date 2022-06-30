@@ -3,15 +3,18 @@ const bcrypt = require('bcryptjs')
 const { Pool } = require('pg')
 
 // Set up the pool (https://node-postgres.com/features/pooling)
-const pool = new Pool({
-    user        :   process.env.DB_USER,
-    host        :   (process.env.NODE_ENV === 'developement') ? 
-                    process.env.DB_HOST_DEV : process.env.DB_HOST_PROD,
-    database    :   process.env.DB_NAME,
-    password    :   process.env.DB_PASSWORD,
-    port        :   process.env.DB_PORT 
-})
-
+const pool = 
+            (process.env.NODE_ENV === 'development') ? 
+            new Pool({
+                    user        :   process.env.DB_USER,
+                    host        :   process.env.DB_HOST_DEV,
+                    database    :   process.env.DB_NAME,
+                    password    :   process.env.DB_PASSWORD,
+                    port        :   process.env.DB_PORT 
+            }) :
+            new Pool({connectionString : 'postgres://xjbulhsftbyhgl:fcba2bd5a84ec4534acea7778269c17077b861f46b61f691300409a75a838842@ec2-44-206-89-185.compute-1.amazonaws.com:5432/d9pn3d6vvr310s', ssl: {rejectUnauthorized: false}})    // Heroku uses a connection URI to connect to database
+            //todo: replace with process.env.DATABASE_URL
+            
 const create_user = async (req, res, _) => {
     try {
         const today = new Date()

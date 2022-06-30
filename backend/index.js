@@ -3,6 +3,7 @@ require('dotenv').config()
 const express = require('express')
 const app = express()
 const cors = require('cors')
+const path = require('path')
 
 const PORT = process.env.PORT || 5000  
 const random_route = require('./routes/random')
@@ -10,11 +11,16 @@ const search_route = require('./routes/search')
 const filter_route = require('./routes/filter')
 const db_route = require('./routes/db')
 
-if (process.env.NODE_ENV === 'production') {    // For production, we need to serve build folder
-    app.use(express.static('../frontend/build'))
-    console.log(__dirname)
-    app.get('/', (req, res) => {
-        res.sendFile('../frontend/build/index.html')
+if (process.env.NODE_ENV === 'production') {    
+    // For production, we need to serve build folder
+    app.use(express.static(path.join(__dirname, 'build')))
+
+    app.get('/*', (req, res, next) => {
+        if (req.path.includes('api') || req.path.includes('db')) {
+            next()
+        } else {
+            res.sendFile(path.join(__dirname, 'build', 'index.html'))
+        }
     })
 }
 
@@ -22,7 +28,6 @@ app.use(cors({
     origin: (process.env.NODE_ENV === 'development') ? process.env.URL_DEV : process.env.URL_PROD,    // Need to specify exact origin when allowing credentials
     credentials: true,  // https://stackoverflow.com/questions/24687313/what-exactly-does-the-access-control-allow-credentials-header-do
 }))
-
 
 app.use(express.urlencoded({
     extended : true
