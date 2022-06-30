@@ -136,7 +136,7 @@ function Favorites(props) {
                                 <MealThumbnail data={meal.meals[0]} show_fav={false} />
                                 <div 
                                     id={meal.meals[0].idMeal} 
-                                    className={deleteMode ? 'overlay visible' : 'overlay invisible'}
+                                    className={deleteMode ? 'overlay show' : 'overlay hide'}
                                     onClick={e => {mark_delete(e)}}>
                                 </div>
                             </div>
