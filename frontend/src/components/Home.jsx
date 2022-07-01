@@ -14,7 +14,7 @@ function Home() {
 
     return (
         <Container id='video-background' fluid>
-            <video autoPlay muted loop>
+            <video autoPlay='true' loop='true' muted='true'>
                 <source src={Video} type='video/mp4' />
             </video>
             <div id='opaque'>
