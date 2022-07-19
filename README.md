@@ -3,9 +3,6 @@
 ## Background
 This project is a web app I made to display meals to the user from [MealDB](https://www.themealdb.com/api.php).
 
-## Video presentation
-If you would rather watch me explain and demo the web app, then watch this [video](todo)
-
 ## What can you do with the web app?
 Here are the features available right now:
 1. Browse from over 200 recipes.
