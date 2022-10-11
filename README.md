@@ -18,7 +18,7 @@ Here are the features available right now:
 - [Node.js](https://nodejs.org/en/)
 - [Express](https://expressjs.com/)
 - [PostgreSQL](https://www.postgresql.org/)
-- [Heroku](https://www.heroku.com/)
+- [Railway](https://railway.app/)
 
 ## What is the web app's architecture?
 The following is how the web app is layed out:
@@ -27,7 +27,7 @@ The following is how the web app is layed out:
 The user interfaces with the frontend created with React and React Bootstrap. The user's HTTP requests are then sent to the backend Express server where, depending on the route, it will either fetch from the external API at MealDB or perform operations on the PostgreSQL database.
 
 ## How can you use the app?
-I have hosted the web app [here](https://hsingh17-cookbook.herokuapp.com/) on Heroku for you to use.
+I have hosted the web app [here](https://cookbook-production-beb3.up.railway.app/) on Railway for you to use. **NOTE: Please clear your browser's cookies before interacting with the app. For some reason Railway's cookies messes with my app**.
 
 ## What lessons were learned?
 - Learned how to create a basic full stack application
@@ -36,7 +36,7 @@ I have hosted the web app [here](https://hsingh17-cookbook.herokuapp.com/) on He
 - Learned how to interact with a PostgreSQL database via NodeJS
 - Learned how to create a cookie-based session for a user
 - Learned more about HTTP requests such as common headers, cookies, query/path/body parameters, and CORS 
-- Learned how to host a full stack application on Heroku
+- Learned how to host a full stack application on Railway
 - Learned how to make simple SVG animations
 
 ## What would I do differently next time?
