@@ -49,12 +49,12 @@ function Recipe(props) {
     }
 
     const toggle_alert = e => {
-        if (document.cookie !== '') { return } // No need to show tooltip alert
+        if (document.cookie.search("sessionID") !== -1) { return } // No need to show tooltip alert
         setShowAlert(e.type === 'mouseover')     
     }
 
     const favorite_meal = async e => {
-        if (document.cookie === '') { return }  // User not logged in
+        if (document.cookie.search("sessionID") === -1) { return }  // User not logged in
 
         e.target.style.color = '#B2BEB5'
         const URL = (

@@ -20,7 +20,7 @@ import RecipeSVG from '../media/recipe.svg'
 import '../styles/Nav.css'
 
 function MyNav() {
-    const [loggedIn, setLoggedIn] = useState(document.cookie !== '')
+    const [loggedIn, setLoggedIn] = useState(document.cookie.search("sessionID") !== -1)
 
     const login_wrapper = login => {
         setLoggedIn(login)

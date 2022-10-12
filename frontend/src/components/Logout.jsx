@@ -23,7 +23,7 @@ function Logout(props) {
         const status = response.ok 
         if (status) {
             setLoading(false)
-            handle_login(document.cookie !== '')
+            handle_login(document.cookie.search("sessionID") !== -1)
             navigate('/')  // Redirect to home page
         }
     }

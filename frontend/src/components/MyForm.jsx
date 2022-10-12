@@ -73,7 +73,7 @@ function MyForm(props) {
                 setVariant('success')
             } else if (status && !sign_up) { // Successful login
                 setShow(false)
-                handle_login(document.cookie !== '') // Update state of nav to be logged in
+                handle_login(document.cookie.search("sessionID") !== -1) // Update state of nav to be logged in
                 navigate('/favorites')  // Redirect to favorites
             }
         } catch (err) {
