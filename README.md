@@ -27,7 +27,7 @@ The following is how the web app is layed out:
 The user interfaces with the frontend created with React and React Bootstrap. The user's HTTP requests are then sent to the backend Express server where, depending on the route, it will either fetch from the external API at MealDB or perform operations on the PostgreSQL database.
 
 ## How can you use the app?
-I have hosted the web app [here](https://cookbook-production-beb3.up.railway.app/) on Railway for you to use. **NOTE: Please clear your browser's cookies before interacting with the app. For some reason Railway's cookies messes with my app**.
+I have hosted the web app [here](https://cookbook-production-beb3.up.railway.app/) on Railway for you to use.
 
 ## What lessons were learned?
 - Learned how to create a basic full stack application
